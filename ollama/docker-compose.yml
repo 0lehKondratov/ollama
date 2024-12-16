@@ -5,16 +5,16 @@ services:
     ports:
       - "11434:11434"
     volumes:
-      - ./models:/root/.ollama/models
+      - /data/models:/root/.ollama/models
     networks:
       - genai-network
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
     ports:
@@ -22,7 +22,7 @@ services:
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
     volumes:
-      - ./backend/data:/app/backend/data
+      - /data/backend/data:/app/backend/data
     networks:
       - genai-network
 networks:
